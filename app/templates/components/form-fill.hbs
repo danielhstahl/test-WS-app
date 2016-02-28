@@ -1,0 +1,8 @@
+{{#if showChart}}
+  <div class='mdl-grid'>
+    {{high-charts content=chartData chartOptions=chartOptions}}
+    {{mdl-button isRaised=true text='Enter Data' click=(action 'toggleChart')}}
+  </div>
+{{else}}
+  {{numeric-form inputs=inputs onSubmit=(action 'submitInputs')}}
+{{/if}}

@@ -5,14 +5,17 @@ module.exports = function(environment) {
     modulePrefix: 'loan-pricing-app',
     environment: environment,
     baseURL: '/',
-    locationType: 'auto',
+    defaultLocationType:'auto',
+    locationType: 'hash',
     EmberENV: {
       FEATURES: {
         // Here you can enable experimental features on an ember canary build
         // e.g. 'with-controller': true
       }
     },
-
+    sassOptions: {
+      includePaths: ['bower_components/material-design-lite/src']
+    },
     APP: {
       // Here you can pass flags/options to your application instance
       // when it is created

@@ -1,0 +1,12 @@
+<div class='mdl-grid'>
+  {{#each inputs as |input|}}
+    {{#if input.errMessage}}
+      {{mdl-textfield label=input.label value=input.value pattern="-?[0-9]*(\.[0-9]+)?" errorMessage=input.errMessage class="mdl-cell mdl-cell--3-col mdl-cell--4-col-tablet mdl-cell--2-col-phone"}}
+    {{else}}
+      {{mdl-textfield label=input.label value=input.value pattern="-?[0-9]*(\.[0-9]+)?" errorMessage="Input is not a number" class="mdl-cell mdl-cell--3-col mdl-cell--4-col-tablet mdl-cell--2-col-phone"}}
+    {{/if}}
+  {{/each}}
+  <div class='mdl-cell mdl-cell--12-col mdl-cell--8-col-tablet mdl-cell--4-col-phone'>
+    {{mdl-button isRaised=true text='Submit'}}
+  </div>
+</div>
