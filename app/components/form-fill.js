@@ -1,93 +1,101 @@
 import Ember from 'ember';
 var inputs=[{
-  name:'t',
-  label:'Time Horizon',
-  value:1,
-  min:0.02,
-  max:5
-},{
-  name:'x0',
-  label:'X0',
-  value:1,
-  min:0.5,
-  max:5
-},{
-  name:'alpha',
-  label:'Speed',
-  value:0.4,
-  min:0.001,
-  max:0.9
-},{
-  name:'sigma',
-  label:'Volatility',
-  value:0.3,
-  min:0.001,
-  max:0.5
-},{
-  name:'lambda',
-  label:'Lambda',
-  value:100,
-  min:1,
-  max:200
-},{
-  name:'alphaStable',
-  label:'Alpha',
-  value:1.1,
-  min:1,
-  max:2
-},{
-  name:'muStable',
-  label:'Shift (Stable)',
-  value:1300,
-  min:1,
-  max:2000
-},{
-  name:'cStable',
-  label:'Scale (Stable)',
-  value:100,
-  min:1,
-  max:200
-},{
-  name:'rho',
-  label:'Correlation',
-  value:0.9,
+  name:'score',
+  label:'Credit Score',
+  value:700,
   min:0,
-  max:0.99
+  max:900
 },{
-  name:'numODE',
-  label:'Steps in ODE',
-  value:128,
-  min:32,
-  max:256
+  name:'balance',
+  label:'Loan Amount',
+  value:10000,
+  min:0,
+  max:10000000
 },{
-  name:'xNum',
-  label:'Steps in X',
-  value:1024,
-  min:128,
-  max:1024
+  name:'collateral',
+  label:'Collateral Value',
+  value:12000,
+  min:0,
+  max:10000000
 },{
-  name:'uNum',
-  label:'Steps in U',
-  value:256,
-  min:32,
-  max:256
+  name:'income',
+  label:'Available income (monthly)',
+  value:1000,
+  min:0,
+  max:10000000
+},
+{
+  name:'term',
+  label:'Years to maturity',
+  value:5,
+  min:0,
+  max:60
 }];
 export default Ember.Component.extend({
   //tagName:'form',
   socketService:Ember.inject.service('websockets'),
   socketRef:null,
   url:'',
-  chartData:'',
+  PD:'',
+  LGD:'',
+  M:'',
+  LIQ:'',
   showChart:'',
   chartOptions: {
     chart: {
-        type: 'line'
+        type: 'bar',
+        height:50
+    },
+    credit:{
+      enabled:false
     },
     legend:{
       enabled:false
     },
+    plotOptions:{
+      bar:{
+           //color:'#000',
+           shadow:false,
+           borderWidth:0,
+           edgeWidth:0,
+           color:'#3F51B5'
+       }
+    },
+    xAxis:{
+      labels:{
+        enabled:false
+      },
+      title: {
+        enabled: false
+      },
+      lineWidth:0,
+      tickWidth:0,
+      gridLineWidth: 0,
+      /*min:0,
+      max:100*/
+    },
+    yAxis:{
+      plotBands:[
+        {from:0,to:25,color: '#00C853'},//very green
+        {from:25,to:50,color: '#CDDC39'},
+        {from:50,to:70,color: '#FFC107'},
+        {from:70,to:85,color: '#D500F9'},
+        {from:85,to:100,color: '#b71c1c'} //very red
+      ],
+      title: {
+        enabled: false
+      },
+      labels:{
+        enabled:false
+      },
+      gridLineWidth: 0,
+      lineWidth:0,
+      tickWidth:0,
+      min:0,
+      max:100
+    },
     title: {
-      text: 'Distribution of Operational Risk Losses'
+      text: ''
     }
   },
   inputs:inputs,
@@ -109,8 +117,12 @@ export default Ember.Component.extend({
   },
   myMessageHandler(event) {
     var data=JSON.parse(event.data);
-    var series=[{/*color:'#c1c1c1',*/ pointStart:data.xmin, pointInterval:data.dx, data:data.y}];
-    this.set('chartData', series);
+    //var series=[{/*color:'#c1c1c1',*/ pointStart:data.xmin, pointInterval:data.dx, data:data.y}];
+    var key='';
+    for(key in data){
+      this.set(key, [{name:key, data:[data[key]]}]);
+    }
+    //this.set('chartData', series);
     this.set('showChart', true);
     //console.log(`Message: ${event.data}`);
   },

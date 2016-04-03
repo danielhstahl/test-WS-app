@@ -1,6 +1,36 @@
 {{#if showChart}}
   <div class='mdl-grid'>
-    {{high-charts content=chartData chartOptions=chartOptions}}
+    <div class='mdl-cell mdl-cell--2-col mdl-color-text--grey-600 display-table '>
+      <span class='caption'>
+        Default
+      </span>
+
+    </div>
+    {{high-charts class='mdl-cell mdl-cell--10-col' content=PD chartOptions=chartOptions}}
+    <div class='mdl-cell mdl-cell--2-col mdl-color-text--grey-600 display-table'>
+      <span class='caption'>
+        Loss Given Default
+      </span>
+    </div>
+    {{high-charts class='mdl-cell mdl-cell--10-col' content=LGD chartOptions=chartOptions}}
+    <div class='mdl-cell mdl-cell--2-col mdl-color-text--grey-600 display-table'>
+      <span class='caption'>
+        Exposure at Default
+      </span>
+    </div>
+    {{high-charts class='mdl-cell mdl-cell--10-col' content=EAD chartOptions=chartOptions}}
+    <div class='mdl-cell mdl-cell--2-col mdl-color-text--grey-600 display-table'>
+      <span class='caption'>
+        Maturity
+      </span>
+    </div>
+    {{high-charts class='mdl-cell mdl-cell--10-col' content=M chartOptions=chartOptions}}
+    <div class='mdl-cell mdl-cell--2-col mdl-color-text--grey-600 display-table'>
+      <span class='caption'>
+        Liquidity
+      </span>
+    </div>
+    {{high-charts class='mdl-cell mdl-cell--10-col' content=LIQ chartOptions=chartOptions}}
     {{mdl-button isRaised=true text='Enter Data' click=(action 'toggleChart')}}
   </div>
 {{else}}

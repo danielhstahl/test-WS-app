@@ -7,6 +7,7 @@ const Router = Ember.Router.extend({
 
 Router.map(function() {
   this.route('mainform');
+  this.route('rates');
 });
 
 export default Router;
